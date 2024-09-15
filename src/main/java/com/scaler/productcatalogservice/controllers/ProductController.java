@@ -19,7 +19,7 @@ public class ProductController {
         Product product = new Product();
         product.setID(productId);
         product.setTitle("Iphone16");
-        product.setDescription("Yet anothner same iphone :(");
+        product.setDescription("Yet another same iphone :(");
         product.setAmount(130000);
         return product;
     }
