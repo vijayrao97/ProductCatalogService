@@ -1,14 +1,20 @@
 package com.scaler.productcatalogservice.controllers;
 
+import com.scaler.productcatalogservice.dtos.CategoryDto;
 import com.scaler.productcatalogservice.dtos.ProductDto;
+import com.scaler.productcatalogservice.models.Category;
 import com.scaler.productcatalogservice.models.Product;
-import lombok.Getter;
+import com.scaler.productcatalogservice.services.IProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class ProductController {
+
+    @Autowired
+    private IProductService productService;
 
     @GetMapping("/products")
     public List<Product> getProduct(){
@@ -17,18 +23,31 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ProductDto getProduct(@PathVariable("id") Long productId){
-//        Product product = new Product();
-//        product.setID(productId);
-//        product.setTitle("Iphone16");
-//        product.setDescription("Yet another same iphone :(");
-//        product.setAmount(130000);
-//        return product;
-        return null;
+        Product product = productService.getProductById(productId);
+        return from(product);
     }
 
     @PostMapping("/products")
-    public ProductDto createProduct(@RequestBody Product product){
+    public ProductDto createProduct(@RequestBody ProductDto product) {
         return null;
+    }
+
+    // Mapper function
+    private ProductDto from(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setID(product.getID());
+        productDto.setTitle(product.getTitle());
+        productDto.setDescription(product.getDescription());
+        productDto.setAmount(product.getAmount());
+        productDto.setImageURL(product.getImageURL());
+        if( product.getCategory() != null ) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(product.getCategory().getID());
+            categoryDto.setName(product.getCategory().getName());
+            categoryDto.setDescription(product.getCategory().getDescription());
+            productDto.setCategory(categoryDto);
+        }
+        return productDto;
     }
 
 }
