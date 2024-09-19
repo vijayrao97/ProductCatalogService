@@ -3,13 +3,19 @@ package com.scaler.productcatalogservice.services;
 import com.scaler.productcatalogservice.dtos.FakeStoreProductDto;
 import com.scaler.productcatalogservice.models.Category;
 import com.scaler.productcatalogservice.models.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service
 public class ProductService implements IProductService {
 
+    @Autowired
+    private RestTemplateBuilder restTemplateBuilder;
 
     @Override
     public List<Product> getAllProducts() {
@@ -18,7 +24,10 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return null;
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        FakeStoreProductDto fakeStoreProductDto =
+                restTemplate.getForEntity("https://fakestoreapi.com/products/{id}",FakeStoreProductDto.class,id).getBody();
+        return from(fakeStoreProductDto);
     }
 
     @Override

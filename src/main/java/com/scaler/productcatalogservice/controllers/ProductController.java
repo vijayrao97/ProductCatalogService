@@ -6,6 +6,8 @@ import com.scaler.productcatalogservice.models.Category;
 import com.scaler.productcatalogservice.models.Product;
 import com.scaler.productcatalogservice.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,14 +19,14 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping("/products")
-    public List<Product> getProduct(){
+    public List<ProductDto> getProduct(){
         return null;
     }
 
     @GetMapping("/products/{id}")
-    public ProductDto getProduct(@PathVariable("id") Long productId){
+    public ResponseEntity<ProductDto> getProduct(@PathVariable("id") Long productId){
         Product product = productService.getProductById(productId);
-        return from(product);
+        return new ResponseEntity<>(from(product), HttpStatus.OK);
     }
 
     @PostMapping("/products")
