@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,15 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<ProductDto> getProduct(){
+        List<Product> products = productService.getAllProducts();
+        List<ProductDto> productDtos = new ArrayList<>();
+        if( products!=null && !products.isEmpty() ){
+            for(Product product : products){
+                ProductDto productDto = from(product);
+                productDtos.add(productDto);
+            }
+            return productDtos;
+        }
         return null;
     }
 
@@ -39,7 +49,6 @@ public class ProductController {
         catch (RuntimeException e){
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @PostMapping("/products")
