@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,9 +25,21 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable("id") Long productId){
-        Product product = productService.getProductById(productId);
-        return new ResponseEntity<>(from(product), HttpStatus.OK);
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long productId){
+        try{
+            if( productId < 1 ){
+                throw new RuntimeException("Product not found.");
+            }
+            Product product = productService.getProductById(productId);
+            if( product == null ){
+                return null;
+            }
+            return new ResponseEntity<>(from(product), HttpStatus.OK);
+        }
+        catch (RuntimeException e){
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PostMapping("/products")
