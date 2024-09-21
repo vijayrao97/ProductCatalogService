@@ -2,13 +2,11 @@ package com.scaler.productcatalogservice.services;
 
 import com.scaler.productcatalogservice.clients.FakeStoreApiClient;
 import com.scaler.productcatalogservice.dtos.FakeStoreProductDto;
-import com.scaler.productcatalogservice.dtos.ProductDto;
 import com.scaler.productcatalogservice.models.Category;
 import com.scaler.productcatalogservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
