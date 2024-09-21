@@ -1,5 +1,6 @@
 package com.scaler.productcatalogservice.services;
 
+import com.scaler.productcatalogservice.clients.FakeStoreApiClient;
 import com.scaler.productcatalogservice.dtos.FakeStoreProductDto;
 import com.scaler.productcatalogservice.dtos.ProductDto;
 import com.scaler.productcatalogservice.models.Category;
@@ -24,6 +25,8 @@ public class ProductService implements IProductService {
 
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
+    @Autowired
+    private FakeStoreApiClient fakeStoreApiClient;
 
     @Override
     public List<Product> getAllProducts() {
@@ -38,12 +41,9 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity =
-                restTemplate.getForEntity("https://fakestoreapi.com/products/{id}",FakeStoreProductDto.class,id);
-        if( fakeStoreProductDtoResponseEntity.getStatusCode().equals(HttpStatusCode.valueOf(200))
-                && fakeStoreProductDtoResponseEntity.getBody() != null ) {
-            return from(fakeStoreProductDtoResponseEntity.getBody());
+        FakeStoreProductDto fakeStoreProductDto = fakeStoreApiClient.getProductById(id);
+        if( fakeStoreProductDto != null ) {
+            return from(fakeStoreProductDto);
         }
         return null;
     }

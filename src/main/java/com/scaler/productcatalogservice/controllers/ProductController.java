@@ -46,8 +46,9 @@ public class ProductController {
             }
             return new ResponseEntity<>(from(product), HttpStatus.OK);
         }
-        catch (RuntimeException e){
-            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        catch (RuntimeException exception){
+            //return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+            throw exception;
         }
     }
 
@@ -60,6 +61,11 @@ public class ProductController {
     public ProductDto replaceProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
         Product product = productService.replaceProduct(id,from(productDto));
         return from(product);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleExceptions(Exception exception) {
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
     // Mapper function
@@ -80,6 +86,7 @@ public class ProductController {
         return productDto;
     }
 
+    // Mapper function
     private Product from(ProductDto productDto) {
         Product product = new Product();
         product.setID(productDto.getID());
