@@ -56,6 +56,12 @@ public class ProductController {
         return null;
     }
 
+    @PutMapping("/products/{id}")
+    public ProductDto replaceProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
+        Product product = productService.replaceProduct(id,from(productDto));
+        return from(product);
+    }
+
     // Mapper function
     private ProductDto from(Product product) {
         ProductDto productDto = new ProductDto();
@@ -72,6 +78,23 @@ public class ProductController {
             productDto.setCategory(categoryDto);
         }
         return productDto;
+    }
+
+    private Product from(ProductDto productDto) {
+        Product product = new Product();
+        product.setID(productDto.getID());
+        product.setTitle(productDto.getTitle());
+        product.setDescription(productDto.getDescription());
+        product.setAmount(productDto.getAmount());
+        product.setImageURL(productDto.getImageURL());
+        if( productDto.getCategory() != null ) {
+            Category category = new Category();
+            category.setID(productDto.getCategory().getId());
+            category.setName(productDto.getCategory().getName());
+            category.setDescription(productDto.getCategory().getDescription());
+            product.setCategory(category);
+        }
+        return product;
     }
 
 }

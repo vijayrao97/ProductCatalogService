@@ -1,13 +1,19 @@
 package com.scaler.productcatalogservice.services;
 
 import com.scaler.productcatalogservice.dtos.FakeStoreProductDto;
+import com.scaler.productcatalogservice.dtos.ProductDto;
 import com.scaler.productcatalogservice.models.Category;
 import com.scaler.productcatalogservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -47,6 +53,21 @@ public class ProductService implements IProductService {
         return null;
     }
 
+    public Product replaceProduct(long id, Product product){
+        FakeStoreProductDto fakeStoreProductDto = from(product);
+        FakeStoreProductDto fakeStoreProductDtoResponse =
+        requestForEntity("https://fakestoreapi.com/products/{id}",HttpMethod.PUT, fakeStoreProductDto,FakeStoreProductDto.class,id).getBody();
+        return from(fakeStoreProductDtoResponse);
+    }
+
+    private <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request,
+                                               Class<T> responseType, Object... uriVariables) throws RestClientException {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
+        ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
+        return restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
+    }
+
     // Mapper function
     public Product from(FakeStoreProductDto fakeStoreProductDto){
         Product product = new Product();
@@ -59,6 +80,19 @@ public class ProductService implements IProductService {
         category.setName(fakeStoreProductDto.getCategory());
         product.setCategory(category);
         return product;
+    }
+
+    public FakeStoreProductDto from(Product product){
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setId(product.getID());
+        fakeStoreProductDto.setTitle(product.getTitle());
+        fakeStoreProductDto.setDescription(product.getDescription());
+        fakeStoreProductDto.setPrice(product.getAmount());
+        fakeStoreProductDto.setImage(product.getImageURL());
+        if( product.getCategory() != null ) {
+            fakeStoreProductDto.setCategory(product.getCategory().getName());
+        }
+        return fakeStoreProductDto;
     }
 
 }
