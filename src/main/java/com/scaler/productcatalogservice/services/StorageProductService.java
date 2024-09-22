@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Primary
+
 public class StorageProductService implements IProductService{
 
     @Autowired
@@ -18,7 +18,8 @@ public class StorageProductService implements IProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        List<Product> products = (List<Product>) productRepo.findAll();
+        return products;
     }
 
     @Override

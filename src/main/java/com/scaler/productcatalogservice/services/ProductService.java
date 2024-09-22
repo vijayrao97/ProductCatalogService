@@ -6,6 +6,7 @@ import com.scaler.productcatalogservice.models.Category;
 import com.scaler.productcatalogservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Primary
 public class ProductService implements IProductService {
 
     @Autowired
@@ -48,7 +50,10 @@ public class ProductService implements IProductService {
 
     @Override
     public Product createProduct(Product product) {
-        return null;
+        FakeStoreProductDto fakeStoreProductDto = from(product);
+        FakeStoreProductDto fakeStoreProductDtoResponse =
+                requestForEntity("https://fakestoreapi.com/products",HttpMethod.POST,fakeStoreProductDto, FakeStoreProductDto.class).getBody();
+        return from(fakeStoreProductDtoResponse);
     }
 
     public Product replaceProduct(long id, Product product){
