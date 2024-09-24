@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@Primary
 public class StorageProductService implements IProductService{
 
     @Autowired
@@ -38,6 +38,6 @@ public class StorageProductService implements IProductService{
 
     @Override
     public Product replaceProduct(long id, Product product) {
-        return productRepo.save(product);
+        return null;
     }
 }
