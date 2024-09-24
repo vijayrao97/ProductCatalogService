@@ -38,6 +38,6 @@ public class StorageProductService implements IProductService{
 
     @Override
     public Product replaceProduct(long id, Product product) {
-        return null;
+        return productRepo.save(product);
     }
 }
