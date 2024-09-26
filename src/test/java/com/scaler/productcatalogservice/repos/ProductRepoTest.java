@@ -18,10 +18,19 @@ class ProductRepoTest {
     @Test
     @Transactional
     public void testQueries(){
-        List<Product> productList = productRepo.findProductByAmountBetween(100000.0, 200000.0);
-        for(Product product : productList){
-            System.out.println(product.toString()+" "+product.getAmount());
-        }
+//        List<Product> productList = productRepo.findProductByAmountBetween(100000.0, 200000.0);
+
+//        List<Product> productList = productRepo.findProductByIsPrimeSpecificTrue();
+//        for(Product product : productList){
+//            System.out.println(product.getTitle()+" "+product.getAmount());
+//        }
+
+        System.out.println(productRepo.findProductDescriptionByFromProductId(4L));
+
+        System.out.println(productRepo.findCategoryNameFromProductId(2L));
+
     }
+
+
 
 }

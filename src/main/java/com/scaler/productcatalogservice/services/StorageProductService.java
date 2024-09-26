@@ -36,6 +36,10 @@ public class StorageProductService implements IProductService{
         return productRepo.save(product);
     }
 
+//    public List<Product> getProductsBetweenRange(Double low, Double high) {
+//        return productRepo.findProductByAmountBetween(low, high);
+//    }
+
     @Override
     public Product replaceProduct(long id, Product product) {
         return null;
