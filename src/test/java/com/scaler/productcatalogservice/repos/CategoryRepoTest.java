@@ -23,4 +23,13 @@ class CategoryRepoTest {
         }
     }
 
+    @Test
+    @Transactional
+    public void testFetchModeAndTypes(){
+        Category category = categoryRepo.findById(1L).get();
+//        for(Product product : category.getProducts()){
+//            System.out.println(product.getTitle());
+//        }
+    }
+
 }
