@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -30,6 +32,17 @@ class CategoryRepoTest {
 //        for(Product product : category.getProducts()){
 //            System.out.println(product.getTitle());
 //        }
+    }
+
+    @Test
+    @Transactional
+    public void runSubQueries(){
+        List<Category> categories = categoryRepo.findAll();
+        for(Category category : categories){
+            for(Product product : category.getProducts()){
+                System.out.println(product.getTitle());
+            }
+        }
     }
 
 }
