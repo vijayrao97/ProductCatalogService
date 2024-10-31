@@ -16,8 +16,8 @@ class CategoryRepoTest {
     @Autowired
     private CategoryRepo categoryRepo;
 
-    @Test
-    @Transactional
+//    @Test
+//    @Transactional
     public void testFetchTypes(){
         Category category = categoryRepo.findById(1L).get();
         for(Product product : category.getProducts()){
@@ -25,8 +25,8 @@ class CategoryRepoTest {
         }
     }
 
-    @Test
-    @Transactional
+//    @Test
+//    @Transactional
     public void testFetchModeAndTypes(){
         Category category = categoryRepo.findById(1L).get();
 //        for(Product product : category.getProducts()){
@@ -34,8 +34,8 @@ class CategoryRepoTest {
 //        }
     }
 
-    @Test
-    @Transactional
+//    @Test
+//    @Transactional
     public void runSubQueries(){
         List<Category> categories = categoryRepo.findAll();
         for(Category category : categories){

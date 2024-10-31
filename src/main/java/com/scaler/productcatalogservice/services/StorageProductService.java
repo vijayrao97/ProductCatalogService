@@ -18,7 +18,7 @@ public class StorageProductService implements IProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        List<Product> products = (List<Product>) productRepo.findAll();
+        List<Product> products = productRepo.findAll();
         return products;
     }
 
