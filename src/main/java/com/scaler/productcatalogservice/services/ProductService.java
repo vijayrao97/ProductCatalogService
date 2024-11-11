@@ -7,6 +7,7 @@ import com.scaler.productcatalogservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Primary
 public class ProductService implements IProductService {
 
     @Autowired
@@ -27,6 +29,9 @@ public class ProductService implements IProductService {
 
     @Autowired
     private FakeStoreApiClient fakeStoreApiClient;
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Override
     public List<Product> getAllProducts() {
@@ -41,8 +46,28 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        FakeStoreProductDto fakeStoreProductDto = fakeStoreApiClient.getProductById(id);
+        /*
+        * Check in cache
+        *   if found then return from cache
+        *   else
+        *       call fakeStore
+        *       save in cache
+        * */
+
+        FakeStoreProductDto fakeStoreProductDto = null;
+
+        fakeStoreProductDto = (FakeStoreProductDto)redisTemplate.opsForHash().get("_PRODUCTS_",id);
+
+        if( fakeStoreProductDto != null ){
+            System.out.println("From Cache");
+            return from(fakeStoreProductDto);
+        }
+
+        fakeStoreProductDto = fakeStoreApiClient.getProductById(id);
+
         if( fakeStoreProductDto != null ) {
+            System.out.println("From FakeStore");
+            redisTemplate.opsForHash().put("_PRODUCTS_",id,fakeStoreProductDto);
             return from(fakeStoreProductDto);
         }
         return null;
