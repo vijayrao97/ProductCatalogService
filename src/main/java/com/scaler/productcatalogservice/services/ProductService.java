@@ -24,6 +24,7 @@ public class ProductService implements IProductService {
 
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
+
     @Autowired
     private FakeStoreApiClient fakeStoreApiClient;
 
