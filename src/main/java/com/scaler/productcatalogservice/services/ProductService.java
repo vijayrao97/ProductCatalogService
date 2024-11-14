@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Primary
+//@Primary
 public class ProductService implements IProductService {
 
     @Autowired
@@ -86,6 +86,11 @@ public class ProductService implements IProductService {
         FakeStoreProductDto fakeStoreProductDtoResponse =
         requestForEntity("https://fakestoreapi.com/products/{id}",HttpMethod.PUT, fakeStoreProductDto,FakeStoreProductDto.class,id).getBody();
         return from(fakeStoreProductDtoResponse);
+    }
+
+    @Override
+    public Product getProductBasedOnUserRole(Long productId, Long userId) {
+        return null;
     }
 
     private <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request,
