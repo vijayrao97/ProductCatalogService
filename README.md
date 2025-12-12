@@ -24,3 +24,18 @@ User Management**
 - Custom exceptions for meaningful error feedback
 - Graceful runtime error management
 
+Technologies Used
+Backend
+- Java
+- Spring Boot (Controllers, Services, Repositories)
+Database
+- MySQL with relational schema
+- Indexing and foreign key constraints
+Payment Gateway
+- Stripe for secure payment processing
+Frontend
+- Not yet implemented, but designed for future integration with React or Angular
+Tools and Libraries
+- Lombok for reducing boilerplate code
+- Hibernate for ORM
+
