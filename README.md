@@ -24,18 +24,60 @@ User Management**
 - Custom exceptions for meaningful error feedback
 - Graceful runtime error management
 
-Technologies Used
-Backend
+**Technologies Used**
+**Backend**
 - Java
 - Spring Boot (Controllers, Services, Repositories)
-Database
+**Database**
 - MySQL with relational schema
 - Indexing and foreign key constraints
-Payment Gateway
+**Payment Gateway**
 - Stripe for secure payment processing
-Frontend
+**Frontend**
 - Not yet implemented, but designed for future integration with React or Angular
-Tools and Libraries
+**Tools and Libraries**
 - Lombok for reducing boilerplate code
 - Hibernate for ORM
 
+**Folder Structure (MVC Pattern)**
+
+onlineshop
+├── docs
+│   ├── api-docs
+│   ├── class-diagram
+│   ├── schema-diagram
+│   └── postman-collection
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── onlineshop
+│   │   │           ├── shop
+│   │   │           │   ├── common
+│   │   │           │   │   ├── dtos
+│   │   │           │   │   ├── exceptions
+│   │   │           │   │   ├── models
+│   │   │           │   ├── config
+│   │   │           │   │   ├── GlobalConfig
+│   │   │           │   │   ├── WebConfig
+│   │   │           │   ├── data
+│   │   │           │   │   ├── DataInitializer
+│   │   │           │   │   ├── RoleRepository
+│   │   │           │   ├── cartAndCheckout
+│   │   │           │   │   ├── controllers
+│   │   │           │   │   ├── dtos
+│   │   │           │   │   ├── exceptions
+│   │   │           │   │   ├── models
+│   │   │           │   │   ├── repositories
+│   │   │           │   │   └── services
+│   │   │           ├── Auth
+│   │   │           ├── product
+│   │   │           ├── order
+│   │   │           ├── user
+│   │   │           └── Application.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       └── templates
+│   │           └── index.html
+└── README.md
+└── pom.xml
